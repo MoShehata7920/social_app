@@ -4,5 +4,6 @@
         "hexcolor",
         "Jannah",
         "sqflite"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

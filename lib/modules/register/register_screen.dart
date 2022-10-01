@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/social_app_layout.dart';
 import '../../shared/component/component.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -23,30 +24,10 @@ class RegisterScreen extends StatelessWidget {
       child: BlocConsumer<SocialRegisterCuibt, SocialRegisterState>(
         listener: (context, state) {
           if (state is SocialRegisterSuccessState) {
-            // if (state.loginModel.status!) {
-            //   showToast(
-            //       text: state.loginModel.message.toString(),
-            //       state: ToastStates.SUCCESS);
-            //   // ignore: avoid_print
-            //   print(state.loginModel.message);
-            //   // ignore: avoid_print
-            //   print(state.loginModel.data!.token);
-
-            //   CacheHelper.saveData(
-            //           key: 'token', value: state.loginModel.data!.token!)
-            //       .then(
-            //     (value) {
-            //       token = state.loginModel.data!.token!;
-            //       // ignore: prefer_const_constructors
-            //       navigateAndFInish(context, ShopLayout());
-            //     },
-            //   );
-            // } else {
-            //   // ignore: avoid_print
-            //   print(state.loginModel.message!);
-            //   showToast(
-            //       text: state.loginModel.message!, state: ToastStates.ERROR);
-            // }
+            if (state is SocialCreateUserSuccessState) {
+              // ignore: prefer_const_constructors
+              navigateAndFInish(context, SocialLayout());
+            }
           }
         },
         builder: (context, state) {
