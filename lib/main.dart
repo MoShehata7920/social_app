@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/social_app_layout.dart';
 import 'package:social_app/modules/login/login_screen.dart';
 import 'package:social_app/shared/bloc_observer.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
@@ -23,27 +24,20 @@ void main() async {
 
   bool? isDark = CacheHelper.getData(key: 'isDark');
 
-  // Widget widget;
-
   // ignore: unused_local_variable
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  String? token = CacheHelper.getData(key: 'token');
-  // ignore: avoid_print
-  print(token);
+  Widget widget;
 
-  // if (onBoarding != null) {
-  //   if (token != null) {
-  //     widget = ShopLayout();
-  //   } else {
-  //     widget = LoginScreen();
-  //   }
-  // } else {
-  //   widget = OnBoardingScreen();
-  // }
+  var uId = CacheHelper.getData(key: 'uId');
+
+  if (uId != null) {
+    widget = SocialLayout();
+  } else {
+    widget = SocialLoginScreen();
+  }
 
   runApp(MyApp(
     isDark: isDark,
-    // startWidget: widget,
+    startWidget: widget,
   ));
 }
 
@@ -77,7 +71,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: ThemeMode.light,
             // AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            home: SocialLoginScreen(),
+            home: startWidget,
           );
         },
       ),

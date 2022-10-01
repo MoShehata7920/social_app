@@ -1,8 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/social_app_layout.dart';
 
 import '../../shared/component/component.dart';
+import '../../shared/network/local/cache_helper.dart';
 import '../register/register_screen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -24,6 +26,14 @@ class SocialLoginScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is SocialLoginErrorState) {
             showToast(text: state.error, state: ToastStates.ERROR);
+          }
+          if (state is SocialLoginSuccessState) {
+            CacheHelper.saveData(key: 'uId', value: state.uId).then(
+              (value) {
+                // ignore: prefer_const_constructors
+                navigateAndFInish(context, SocialLayout());
+              },
+            );
           }
         },
         builder: (context, state) {

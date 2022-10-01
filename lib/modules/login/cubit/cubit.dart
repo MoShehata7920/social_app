@@ -23,7 +23,7 @@ class SocialLoginCuibt extends Cubit<SocialLoginState> {
         .then((value) {
       print(value.user!.email);
       print(value.user!.uid);
-      emit(SocialLoginSuccessState());
+      emit(SocialLoginSuccessState(value.user!.uid));
     }).catchError((error) {
       emit(SocialLoginErrorState(error.toString()));
     });
