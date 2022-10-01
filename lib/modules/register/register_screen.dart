@@ -23,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => SocialRegisterCuibt(),
       child: BlocConsumer<SocialRegisterCuibt, SocialRegisterState>(
         listener: (context, state) {
-          if (state is SocialRegisterSuccessState) {
+          if (state is SocialCreateUserSuccessState) {
             if (state is SocialCreateUserSuccessState) {
               // ignore: prefer_const_constructors
               navigateAndFInish(context, SocialLayout());
