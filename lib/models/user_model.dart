@@ -32,4 +32,6 @@ class SocialUserModel {
       'isEmailVerified': isEmailVerified,
     };
   }
+
+  SocialUserModel? fromJson(JsonCodec json) {}
 }

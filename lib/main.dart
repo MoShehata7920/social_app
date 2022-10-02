@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/social_app_layout.dart';
 import 'package:social_app/modules/login/login_screen.dart';
 import 'package:social_app/shared/bloc_observer.dart';
@@ -10,7 +11,6 @@ import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/network/remote/dio_helper.dart';
-
 import 'shared/styles/themes.dart';
 
 void main() async {
@@ -24,8 +24,9 @@ void main() async {
 
   bool? isDark = CacheHelper.getData(key: 'isDark');
 
-  // ignore: unused_local_variable
   Widget widget;
+
+  // token = CacheHelper.getData(key: 'uId');
 
   var uId = CacheHelper.getData(key: 'uId');
 
@@ -56,11 +57,14 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: ((context) => AppCubit()
+          create: (BuildContext context) => AppCubit()
             ..changeAppMode(
               fromShared: isDark,
-            )),
+            ),
         ),
+        BlocProvider(
+          create: (BuildContext context) => SocialCubit()..getUserData(),
+        )
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
