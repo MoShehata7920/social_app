@@ -19,7 +19,10 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Colors.black,
     elevation: 0.0,
     titleTextStyle: TextStyle(
-        color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
+        fontFamily: 'Jannah',
+        color: Colors.white,
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold),
     iconTheme: IconThemeData(
       color: Colors.white,
     ),
@@ -51,7 +54,10 @@ ThemeData lightTheme = ThemeData(
     backgroundColor: Colors.white,
     elevation: 0.0,
     titleTextStyle: TextStyle(
-        color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+        fontFamily: 'Jannah',
+        color: Colors.black,
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold),
     iconTheme: IconThemeData(
       color: Colors.black,
     ),

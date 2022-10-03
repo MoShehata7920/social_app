@@ -81,7 +81,9 @@ flutter:
     - family: Jannah
       fonts:
         - asset: assets/fonts/jannah.ttf
-
+    - family: IconBroken
+      fonts:
+        - asset: assets/fonts/icons.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
