@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:social_app/shared/component/component.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
@@ -22,12 +18,12 @@ class FeedsScreen extends StatelessWidget {
             elevation: 5,
             margin: const EdgeInsets.all(8),
             child: Stack(
-              alignment: AlignmentDirectional.bottomEnd,
+              alignment: AlignmentDirectional.bottomStart,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
                 const Image(
                   image: NetworkImage(
-                    'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
+                    'https://th.bing.com/th/id/R.65357ad39ab2da7992165f99a7460be7?rik=pM0CUbyeDeQg9Q&pid=ImgRaw&r=0',
                   ),
                   fit: BoxFit.cover,
                   height: 200,
@@ -80,7 +76,7 @@ class FeedsScreen extends StatelessWidget {
                 const CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    'https://image.freepik.com/free-photo/skeptical-woman-has-unsure-questioned-expression-points-fingers-sideways_273609-40770.jpg',
+                    'https://th.bing.com/th/id/OIP.g-AmzU4RIkeTm904gJ3tjgHaFj?pid=ImgDet&rs=1',
                   ),
                 ),
                 const SizedBox(
@@ -205,7 +201,7 @@ class FeedsScreen extends StatelessWidget {
                 // ignore: prefer_const_constructors
                 image: DecorationImage(
                   image: const NetworkImage(
-                    'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
+                    'https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701978641.jpg',
                   ),
                   fit: BoxFit.cover,
                 ),

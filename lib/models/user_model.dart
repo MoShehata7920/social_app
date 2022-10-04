@@ -5,6 +5,9 @@ class SocialUserModel {
   String? email;
   String? phone;
   String? uId;
+  String? image;
+  String? cover;
+  String? bio;
   bool? isEmailVerified;
 
   SocialUserModel({
@@ -12,6 +15,9 @@ class SocialUserModel {
     this.name,
     this.phone,
     this.uId,
+    this.image,
+    this.cover,
+    this.bio,
     this.isEmailVerified,
   });
 
@@ -21,6 +27,9 @@ class SocialUserModel {
     phone = json['phone'];
     uId = json['uId'];
     isEmailVerified = json['isEmailVerified'];
+    image = json['image'];
+    cover = json['cover'];
+    bio = json['bio'];
   }
 
   Map<String, dynamic> toMap() {
@@ -29,6 +38,9 @@ class SocialUserModel {
       'email': email,
       'phone': phone,
       'uId': uId,
+      'image': image,
+      'cover': cover,
+      'bio': bio,
       'isEmailVerified': isEmailVerified,
     };
   }
