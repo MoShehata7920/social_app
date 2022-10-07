@@ -3,6 +3,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:social_app/shared/styles/icon_broken.dart';
 
 // ignore: unused_import
 import '../styles/colors.dart';
@@ -217,3 +218,19 @@ Color? chooseToastColor(ToastStates state) {
   }
   return color;
 }
+
+// Widget defaultAppBar({
+//   required BuildContext? context,
+//   String? title,
+//   List<Widget>? actions,
+// }) =>
+//     AppBar(
+//       leading: IconButton(
+//         onPressed: () {
+//           Navigator.pop(context!);
+//         },
+//         icon: Icon(IconBroken.Arrow___Left_2),
+//       ),
+//       title: Text(title!),
+//       actions: [actions!],
+//     );

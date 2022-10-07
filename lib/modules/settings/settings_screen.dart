@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/modules/edit_profile/edit_profile_screen.dart';
 import 'package:social_app/shared/component/component.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
@@ -17,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
     return BlocConsumer<SocialCubit, SocialStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var userModel = SocialCubit.get(context).model;
+        var userModel = SocialCubit.get(context).userModel;
 
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -152,7 +153,10 @@ class SettingsScreen extends StatelessWidget {
                     width: 15,
                   ),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // ignore: prefer_const_constructors
+                      navigateTo(context, EditProfileScreen());
+                    },
                     child: const Icon(
                       IconBroken.Edit,
                       size: 20,
