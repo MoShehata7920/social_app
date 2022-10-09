@@ -11,7 +11,9 @@ import 'package:social_app/shared/styles/icon_broken.dart';
 import '../../shared/styles/colors.dart';
 
 class NewPostScreen extends StatelessWidget {
-  const NewPostScreen({Key? key}) : super(key: key);
+  NewPostScreen({Key? key}) : super(key: key);
+
+  var textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +31,30 @@ class NewPostScreen extends StatelessWidget {
             ),
             title: const Text('Create Post'),
             actions: [
-              defaultTextButton(function: () {}, text: 'Post'),
+              defaultTextButton(
+                  function: () {
+                    var now = DateTime.now();
+                    if (SocialCubit.get(context).postImage == null) {
+                      SocialCubit.get(context).createPost(
+                          dateTime: now.toString(), text: textController.text);
+                    } else {
+                      SocialCubit.get(context).uploadPostImage(
+                          dateTime: now.toString(), text: textController.text);
+                    }
+                  },
+                  text: 'Post'),
             ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
+                if (state is SocialCreatePostLoadingState)
+                  const LinearProgressIndicator(),
+                if (state is SocialCreatePostLoadingState)
+                  const SizedBox(
+                    height: 10,
+                  ),
                 Row(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
@@ -61,16 +80,57 @@ class NewPostScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: TextFormField(
+                    controller: textController,
                     decoration: const InputDecoration(
                         hintText: 'What is on your mind .... ',
                         border: InputBorder.none),
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                if (SocialCubit.get(context).postImage != null)
+                  Stack(
+                    alignment: AlignmentDirectional.topEnd,
+                    children: [
+                      Container(
+                        height: 140,
+                        width: double.infinity,
+                        // ignore: prefer_const_constructors
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          // ignore: prefer_const_constructors
+                          image: DecorationImage(
+                            image:
+                                FileImage(SocialCubit.get(context).postImage!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          SocialCubit.get(context).removePostImage();
+                        },
+                        icon: const CircleAvatar(
+                          radius: 16,
+                          child: Icon(
+                            Icons.close,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     Expanded(
                       child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            SocialCubit.get(context).getPostImage();
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             // ignore: prefer_const_literals_to_create_immutables
