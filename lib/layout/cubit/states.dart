@@ -48,3 +48,14 @@ class SocialPostImagePickedSuccessState extends SocialStates {}
 class SocialPostImagePickedErrorState extends SocialStates {}
 
 class SocialRemoveImageState extends SocialStates {}
+
+// get posts
+class SocialGetPostsSuccessState extends SocialStates {}
+
+class SocialGetPostsLoadingState extends SocialStates {}
+
+class SocialGetPostsErrorState extends SocialStates {
+  final String error;
+
+  SocialGetPostsErrorState(this.error);
+}

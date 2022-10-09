@@ -1,4 +1,9 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/cubit/cubit.dart';
+import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/models/post_model.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
@@ -7,60 +12,71 @@ class FeedsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        // ignore: prefer_const_literals_to_create_immutables
-        children: [
-          // ignore: prefer_const_constructors, sized_box_for_whitespace
-          Card(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            elevation: 5,
-            margin: const EdgeInsets.all(8),
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
+    return BlocConsumer<SocialCubit, SocialStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return ConditionalBuilder(
+          condition: SocialCubit.get(context).posts.isNotEmpty,
+          builder: (context) => SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const Image(
-                  image: NetworkImage(
-                    'https://th.bing.com/th/id/R.65357ad39ab2da7992165f99a7460be7?rik=pM0CUbyeDeQg9Q&pid=ImgRaw&r=0',
+                // ignore: prefer_const_constructors, sized_box_for_whitespace
+                Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 5,
+                  margin: const EdgeInsets.all(8),
+                  child: Stack(
+                    alignment: AlignmentDirectional.topCenter,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Image(
+                        image: NetworkImage(
+                          '${SocialCubit.get(context).userModel!.cover}',
+                        ),
+                        fit: BoxFit.cover,
+                        height: 200,
+                        width: double.infinity,
+                      ),
+                      // ignore: prefer_const_constructors
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Mo \'s Social App :) ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: double.infinity,
                 ),
-                // ignore: prefer_const_constructors
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Communicate With friends',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1!
-                        .copyWith(color: Colors.white),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => buildPostItem(
+                      SocialCubit.get(context).posts[index], context),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 8,
                   ),
+                  itemCount: SocialCubit.get(context).posts.length,
                 ),
+                const SizedBox(
+                  height: 8,
+                )
               ],
             ),
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => buildPostItem(context),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 8,
-            ),
-            itemCount: 10,
-          ),
-          const SizedBox(
-            height: 8,
-          )
-        ],
-      ),
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
+        );
+      },
     );
   }
 
-  Widget buildPostItem(context) => Card(
+  Widget buildPostItem(PostModel model, context) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5,
       margin: const EdgeInsets.symmetric(
@@ -69,15 +85,14 @@ class FeedsScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                    'https://th.bing.com/th/id/OIP.g-AmzU4RIkeTm904gJ3tjgHaFj?pid=ImgDet&rs=1',
-                  ),
+                  backgroundImage: NetworkImage('${model.image}'),
                 ),
                 const SizedBox(
                   width: 15,
@@ -90,9 +105,9 @@ class FeedsScreen extends StatelessWidget {
                       Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Text(
-                            'Mohamed Shehata',
-                            style: TextStyle(
+                          Text(
+                            '${model.name}',
+                            style: const TextStyle(
                               height: 1.4,
                             ),
                           ),
@@ -108,7 +123,7 @@ class FeedsScreen extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        'October 4 , 2022 at 12:00 pm ',
+                        '${model.dateTime}',
                         style: Theme.of(context)
                             .textTheme
                             .caption!
@@ -138,8 +153,11 @@ class FeedsScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'Learning a little each day adds up. Research shows that students who make learning a habit are more likely to reach their goals. Set time aside to learn and get reminders using your learning scheduler.',
+              '${model.text}',
               style: Theme.of(context).textTheme.subtitle1,
+            ),
+            const SizedBox(
+              height: 15,
             ),
             // ignore: sized_box_for_whitespace
             Padding(
@@ -192,21 +210,27 @@ class FeedsScreen extends StatelessWidget {
               ),
             ),
             // ignore: prefer_const_constructors
-            Container(
-              height: 140,
-              width: double.infinity,
-              // ignore: prefer_const_constructors
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                // ignore: prefer_const_constructors
-                image: DecorationImage(
-                  image: const NetworkImage(
-                    'https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701978641.jpg',
+            if (model.postImages != '')
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                  top: 15,
+                ),
+                child: Container(
+                  height: 140,
+                  width: double.infinity,
+                  // ignore: prefer_const_constructors
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    // ignore: prefer_const_constructors
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        '${model.postImages}',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 5,
@@ -229,7 +253,7 @@ class FeedsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              '120',
+                              '0',
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ],
@@ -255,7 +279,7 @@ class FeedsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              '120',
+                              '0',
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ],
@@ -284,10 +308,10 @@ class FeedsScreen extends StatelessWidget {
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 15,
                           backgroundImage: NetworkImage(
-                            'https://image.freepik.com/free-photo/skeptical-woman-has-unsure-questioned-expression-points-fingers-sideways_273609-40770.jpg',
+                            '${SocialCubit.get(context).userModel!.image}',
                           ),
                         ),
                         const SizedBox(
