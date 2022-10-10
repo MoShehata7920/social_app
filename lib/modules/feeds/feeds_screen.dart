@@ -16,7 +16,8 @@ class FeedsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: SocialCubit.get(context).posts.isNotEmpty,
+          condition: SocialCubit.get(context).posts.isNotEmpty &&
+              SocialCubit.get(context).userModel != null,
           builder: (context) => SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
@@ -43,7 +44,7 @@ class FeedsScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Mo \'s Social App :) ',
+                          'Mo\'s Social App :) ',
                           style: Theme.of(context)
                               .textTheme
                               .subtitle1!
@@ -57,7 +58,7 @@ class FeedsScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => buildPostItem(
-                      SocialCubit.get(context).posts[index], context),
+                      SocialCubit.get(context).posts[index], context, index),
                   separatorBuilder: (context, index) => const SizedBox(
                     height: 8,
                   ),
@@ -76,7 +77,7 @@ class FeedsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPostItem(PostModel model, context) => Card(
+  Widget buildPostItem(PostModel model, context, index) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5,
       margin: const EdgeInsets.symmetric(
@@ -92,7 +93,8 @@ class FeedsScreen extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage('${model.image}'),
+                  backgroundImage: NetworkImage(
+                      '${SocialCubit.get(context).userModel!.image}'),
                 ),
                 const SizedBox(
                   width: 15,
@@ -170,6 +172,7 @@ class FeedsScreen extends StatelessWidget {
                     // ignore: sized_box_for_whitespace
                     Padding(
                       padding: const EdgeInsetsDirectional.only(end: 6.0),
+                      // ignore: sized_box_for_whitespace
                       child: Container(
                         height: 20,
                         child: MaterialButton(
@@ -189,6 +192,7 @@ class FeedsScreen extends StatelessWidget {
                     // ignore: sized_box_for_whitespace
                     Padding(
                       padding: const EdgeInsetsDirectional.only(end: 6),
+                      // ignore: sized_box_for_whitespace
                       child: Container(
                         height: 20,
                         child: MaterialButton(
@@ -344,7 +348,10 @@ class FeedsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    SocialCubit.get(context)
+                        .postLikes(SocialCubit.get(context).postId[index]);
+                  },
                 ),
               ],
             ),
