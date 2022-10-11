@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/models/post_model.dart';
+import 'package:social_app/modules/comment/comment_screen.dart';
+import 'package:social_app/shared/component/component.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
@@ -257,6 +259,7 @@ class FeedsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
+                              // '1',
                               '${SocialCubit.get(context).likes[index]}',
                               style: Theme.of(context).textTheme.caption,
                             ),
@@ -283,7 +286,8 @@ class FeedsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              '0',
+                              // '1'
+                              '${SocialCubit.get(context).commentsNum[index]}',
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ],
@@ -328,7 +332,10 @@ class FeedsScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      // ignore: prefer_const_constructors
+                      navigateTo(context, CommentsScreen());
+                    },
                   ),
                 ),
                 InkWell(
