@@ -259,7 +259,6 @@ class FeedsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              // '1',
                               '${SocialCubit.get(context).likes[index]}',
                               style: Theme.of(context).textTheme.caption,
                             ),
@@ -286,8 +285,7 @@ class FeedsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              // '1'
-                              '${SocialCubit.get(context).commentsNum[index]}',
+                              '0',
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ],
@@ -333,8 +331,7 @@ class FeedsScreen extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      // ignore: prefer_const_constructors
-                      navigateTo(context, CommentsScreen());
+                      navigateTo(context, const CommentsScreen());
                     },
                   ),
                 ),

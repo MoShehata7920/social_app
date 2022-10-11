@@ -3,8 +3,7 @@
         "cupertino",
         "hexcolor",
         "Jannah",
-        "sqflite",
-        "STEB"
+        "sqflite"
     ],
     "java.configuration.updateBuildConfiguration": "interactive"
 }
