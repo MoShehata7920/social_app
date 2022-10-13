@@ -282,7 +282,6 @@ class SocialCubit extends Cubit<SocialStates> {
   // to count comments
   List<int> commentsNum = [];
   //to add comments
-  List<CommentModel> comments = [];
 
   void getPosts() {
     FirebaseFirestore.instance.collection('posts').get().then((value) {
@@ -323,18 +322,49 @@ class SocialCubit extends Cubit<SocialStates> {
     });
   }
 
-  void postComments(String postId) {
+  CommentModel? comment;
+  void createComment({
+    String? dateTime,
+    String? text,
+    String? postId,
+  }) {
+    emit(SocialSendCommentLoadingState());
+    // emit(SocialUserUpdateLoadingState());
+    CommentModel comment = CommentModel(
+        dateTime: dateTime,
+        uId: userModel!.uId,
+        comment: text,
+        image: userModel!.image,
+        name: userModel!.name);
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
         .collection('comments')
-        .doc(userModel!.uId)
-        .set({
-      'comments': true,
-    }).then((value) {
-      emit(SocialPostCommentsSuccessState());
+        .add(comment.toMap())
+        .then((value) {
+      emit(SocialSendCommentSuccessState());
     }).catchError((error) {
-      emit(SocialPostCommentsErrorState(error.toString()));
+      emit(SocialSendCommentErrorState());
+    });
+  }
+
+  List<CommentModel> comments = [];
+  void getComments(String? postId) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .get()
+        .then((value) {
+      // ignore: avoid_function_literals_in_foreach_calls
+      value.docs.forEach(
+        (element) {
+          comments.add(CommentModel.fromJson(element.data()));
+        },
+      );
+      emit(SocialGetCommentsSuccessState());
+    }).catchError((error) {
+      emit(SocialGetCommentsErrorState(error.toString()));
     });
   }
 }

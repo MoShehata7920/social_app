@@ -331,7 +331,7 @@ class FeedsScreen extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      navigateTo(context, const CommentsScreen());
+                      navigateTo(context, CommentsScreen());
                     },
                   ),
                 ),

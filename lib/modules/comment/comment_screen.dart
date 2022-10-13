@@ -1,46 +1,144 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/models/comment_model.dart';
 import 'package:social_app/shared/component/component.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
+import '../../layout/cubit/cubit.dart';
+
+// ignore: must_be_immutable
 class CommentsScreen extends StatelessWidget {
-  const CommentsScreen({Key? key}) : super(key: key);
+  CommentsScreen({Key? key}) : super(key: key);
+  var commentController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            statusBarBrightness: Brightness.dark,
-            statusBarIconBrightness: Brightness.dark,
-          ),
-          elevation: 1,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              IconBroken.Arrow___Left,
-              size: 30,
-              color: Colors.black,
+    return BlocConsumer<SocialCubit, SocialStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return ConditionalBuilder(
+          condition: true,
+          builder: (context) => Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Colors.white,
+                statusBarBrightness: Brightness.dark,
+                statusBarIconBrightness: Brightness.dark,
+              ),
+              elevation: 1,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  IconBroken.Arrow___Left,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+              titleSpacing: 1,
+              title: const Text(
+                'comments',
+                style: TextStyle(color: Colors.blue, fontSize: 20),
+              ),
+            ),
+            body: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) => buildComment(
+                          SocialCubit.get(context).comments[index],
+                          context,
+                          index),
+                      separatorBuilder: (context, index) => myDivider(),
+                      itemCount: SocialCubit.get(context).comments.length),
+                ),
+                Container(
+                    color: const Color(0xff063750),
+                    child: Form(
+                      key: formKey,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const CircleAvatar(
+                                radius: 35,
+                                backgroundColor: Colors.white,
+                                child: Icon(IconBroken.Image,
+                                    size: 25, color: Colors.black)),
+                            onPressed: () {
+                              debugPrint('add image');
+                            },
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              autofocus: false,
+                              keyboardType: TextInputType.text,
+                              enableInteractiveSelection: true,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                              enableSuggestions: true,
+                              scrollPhysics: const BouncingScrollPhysics(),
+                              decoration: const InputDecoration(
+                                focusedBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                border: InputBorder.none,
+                                fillColor: Colors.grey,
+                                hintText: 'comment..',
+                                hintStyle: TextStyle(color: Colors.white),
+                              ),
+                              autocorrect: true,
+                              controller: commentController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'The comment can\'t be empty';
+                                }
+                                return null;
+                              },
+                              onFieldSubmitted: (value) {},
+                            ),
+                          ),
+                          IconButton(
+                              icon: const CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    IconBroken.Send,
+                                    size: 25,
+                                    color: Colors.black,
+                                  )),
+                              onPressed: () {
+                                if (formKey.currentState!.validate() == true) {
+                                  debugPrint('comment');
+                                  SocialCubit.get(context).createComment(
+                                      dateTime: DateTime.now().toString(),
+                                      text: commentController.text);
+                                  commentController.text = '';
+                                  SocialCubit.get(context).getPosts();
+                                }
+                              }),
+                        ],
+                      ),
+                    ))
+              ],
             ),
           ),
-          titleSpacing: 1,
-          title: const Text(
-            'comments',
-            style: TextStyle(color: Colors.blue, fontSize: 20),
-          ),
-        ),
-        body: ListView.separated(
-            itemBuilder: (context, index) => buildComment(context),
-            separatorBuilder: (context, index) => myDivider(),
-            itemCount: 10));
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
+        );
+      },
+    );
   }
 
-  Widget buildComment(context) {
+  Widget buildComment(CommentModel model, context, index) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
