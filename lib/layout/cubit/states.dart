@@ -106,3 +106,13 @@ class SocialGetAllUsersErrorState extends SocialStates {
 
   SocialGetAllUsersErrorState(this.error);
 }
+
+// send messages
+class SocialSendMessageSuccessState extends SocialStates {}
+
+class SocialSendMessageErrorState extends SocialStates {}
+
+// get messages
+class SocialGetMessageSuccessState extends SocialStates {}
+
+class SocialGetMessageErrorState extends SocialStates {}
