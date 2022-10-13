@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/models/comment_model.dart';
 import 'package:social_app/models/post_model.dart';
 import 'package:social_app/models/user_model.dart';
 import 'package:social_app/modules/chats/chats_sscreen.dart';
@@ -280,6 +281,8 @@ class SocialCubit extends Cubit<SocialStates> {
   List<int> likes = [];
   // to count comments
   List<int> commentsNum = [];
+  //to add comments
+  List<CommentModel> comments = [];
 
   void getPosts() {
     FirebaseFirestore.instance.collection('posts').get().then((value) {
