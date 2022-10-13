@@ -60,10 +60,20 @@ class SocialGetPostsErrorState extends SocialStates {
   SocialGetPostsErrorState(this.error);
 }
 
+// states of likes
 class SocialLikePostSuccessState extends SocialStates {}
 
 class SocialLikePostErrorState extends SocialStates {
   final String error;
 
   SocialLikePostErrorState(this.error);
+}
+
+// states of comments
+class SocialPostCommentsSuccessState extends SocialStates {}
+
+class SocialPostCommentsErrorState extends SocialStates {
+  final String error;
+
+  SocialPostCommentsErrorState(this.error);
 }
