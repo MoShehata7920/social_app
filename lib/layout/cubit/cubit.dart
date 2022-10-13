@@ -367,4 +367,20 @@ class SocialCubit extends Cubit<SocialStates> {
       emit(SocialGetCommentsErrorState(error.toString()));
     });
   }
+
+  // get all users for chat screen
+  List<SocialUserModel> users = [];
+  void getUsers() {
+    FirebaseFirestore.instance.collection('users').get().then((value) {
+      // ignore: avoid_function_literals_in_foreach_calls
+      value.docs.forEach(
+        (element) {
+          users.add(SocialUserModel.fromJson(element.data()));
+        },
+      );
+      emit(SocialGetAllUsersSuccessState());
+    }).catchError((error) {
+      emit(SocialGetAllUsersErrorState(error.toString()));
+    });
+  }
 }

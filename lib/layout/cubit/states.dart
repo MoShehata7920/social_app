@@ -95,3 +95,14 @@ class SocialGetCommentsErrorState extends SocialStates {
 
   SocialGetCommentsErrorState(this.error);
 }
+
+// get all users for chat screen
+class SocialGetAllUsersSuccessState extends SocialStates {}
+
+class SocialGetAllUsersLoadingState extends SocialStates {}
+
+class SocialGetAllUsersErrorState extends SocialStates {
+  final String error;
+
+  SocialGetAllUsersErrorState(this.error);
+}
