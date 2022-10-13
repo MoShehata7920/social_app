@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class PostModel {
+class CommentModel {
   String? name;
   String? uId;
   String? image;
   String? dateTime;
   String? comment;
 
-  PostModel({
+  CommentModel({
     this.name,
     this.uId,
     this.image,
@@ -15,7 +15,7 @@ class PostModel {
     this.comment,
   });
 
-  PostModel.fromJson(Map<String, dynamic> json) {
+  CommentModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     uId = json['uId'];
     image = json['image'];
@@ -33,5 +33,5 @@ class PostModel {
     };
   }
 
-  PostModel? fromJson(JsonCodec json) {}
+  CommentModel? fromJson(JsonCodec json) {}
 }
