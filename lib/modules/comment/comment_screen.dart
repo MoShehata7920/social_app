@@ -21,7 +21,8 @@ class CommentsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: true,
+          condition: SocialCubit.get(context).posts.isNotEmpty &&
+              SocialCubit.get(context).userModel != null,
           builder: (context) => Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
@@ -144,10 +145,10 @@ class CommentsScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 25,
-            backgroundImage: NetworkImage(
-                'https://firebasestorage.googleapis.com/v0/b/social-app-8e7d2.appspot.com/o/userProfileImage%2Fimage_picker1497821885160032962.jpg?alt=media&token=a8857b47-6734-448c-a6ac-7236fc66cdf3'),
+            backgroundImage:
+                NetworkImage('${SocialCubit.get(context).comment!.image}'),
           ),
           const SizedBox(
             width: 10,
@@ -181,21 +182,22 @@ class CommentsScreen extends StatelessWidget {
                         Row(
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
-                            const Text(
-                              'Mohamed Shehata',
+                            Text(
+                              '${SocialCubit.get(context).comment!.name}',
                               textAlign: TextAlign.start,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.blue),
+                              style: const TextStyle(color: Colors.blue),
                             ),
                             const SizedBox(
                               width: 10,
                             ),
                           ],
                         ),
-                        const Text(
-                          'Here are some popular examples, which you can copy directly into Excel to experiment with on',
-                          style: TextStyle(color: Colors.black, fontSize: 17),
+                        Text(
+                          '${SocialCubit.get(context).comment!.text}',
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 17),
                         ),
                       ],
                     ),
@@ -205,7 +207,7 @@ class CommentsScreen extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  '2022-10-09 22:29:22.528415',
+                  '${SocialCubit.get(context).comment!.dateTime}',
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         height: 1.3,
                       ),
