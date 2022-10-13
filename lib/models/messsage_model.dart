@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class MessageModel {
   String? senderId;
   String? receiverId;
@@ -28,6 +26,4 @@ class MessageModel {
       'text': text,
     };
   }
-
-  MessageModel? fromJson(JsonCodec json) {}
 }
