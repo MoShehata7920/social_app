@@ -95,8 +95,7 @@ class FeedsScreen extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      '${SocialCubit.get(context).userModel!.image}'),
+                  backgroundImage: NetworkImage('${model.image}'),
                 ),
                 const SizedBox(
                   width: 15,
