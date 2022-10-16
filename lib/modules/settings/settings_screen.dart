@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/modules/edit_profile/edit_profile_screen.dart';
 import 'package:social_app/shared/component/component.dart';
-import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -162,6 +159,27 @@ class SettingsScreen extends StatelessWidget {
                       size: 20,
                     ),
                   ),
+                ],
+              ),
+              Row(
+                children: [
+                  OutlinedButton(
+                      onPressed: () {
+                        FirebaseMessaging.instance
+                            .subscribeToTopic('announcements');
+                      },
+                      // ignore: prefer_const_constructors
+                      child: Text('Subscribe')),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  OutlinedButton(
+                      onPressed: () {
+                        FirebaseMessaging.instance
+                            .unsubscribeFromTopic('announcements');
+                      },
+                      // ignore: prefer_const_constructors
+                      child: Text('UnSubscribe'))
                 ],
               ),
             ],
