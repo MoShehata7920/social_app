@@ -8,11 +8,22 @@ import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/social_app_layout.dart';
 import 'package:social_app/modules/login/login_screen.dart';
 import 'package:social_app/shared/bloc_observer.dart';
+import 'package:social_app/shared/component/component.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/network/remote/dio_helper.dart';
 import 'shared/styles/themes.dart';
+
+// for background notifications
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // ignore: avoid_print
+  print('on background message');
+  // ignore: avoid_print
+  print(message.data.toString());
+  // ignore: avoid_print
+  showToast(text: 'on background message', state: ToastStates.SUCCESS);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,12 +34,17 @@ void main() async {
   print(token);
   FirebaseMessaging.onMessage.listen((event) {
     // ignore: avoid_print
+    print('on message');
+    // ignore: avoid_print
     print(event.data.toString());
+    showToast(text: 'on message', state: ToastStates.SUCCESS);
   });
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
     // ignore: avoid_print
     print(event.data.toString());
+    showToast(text: 'on message opened app', state: ToastStates.SUCCESS);
   });
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
