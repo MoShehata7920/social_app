@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
@@ -17,6 +18,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+  var token = FirebaseMessaging.instance.getToken();
+  // ignore: avoid_print
+  print(token);
+  FirebaseMessaging.onMessage.listen((event) {
+    // ignore: avoid_print
+    print(event.data.toString());
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    // ignore: avoid_print
+    print(event.data.toString());
+  });
 
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
